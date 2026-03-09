@@ -3,6 +3,13 @@ const ctx = new AudioContext();
 
 const waveformSelector = document.getElementById('waveform');
 
+
+const attackKnob = document.getElementById('attack');
+const decayKnob = document.getElementById('decay');
+const sustainKnob = document.getElementById('sustain');
+const releaseKnob = document.getElementById('release');
+
+
 const notes = [
   { note: 'C', freq: 261.63 },
   { note: 'D', freq: 293.66 },
@@ -15,21 +22,30 @@ const notes = [
 ];
 
 function playNote(frequency) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
 
-    osc.connect(gain);
-    gain.connect(ctx.destination);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
 
-    osc.frequency.value = frequency;
-    osc.type = waveformSelector.value;
+  osc.frequency.value = frequency;
+  osc.type = waveformSelector.value;
 
-    gain.gain.setValueAtTime(0.3, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1);
+  const attack = parseFloat(attackKnob.value);
+  const decay = parseFloat(decayKnob.value);
+  const sustain = parseFloat(sustainKnob.value);
+  const release = parseFloat(releaseKnob.value);
 
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + 1);
+  const now = ctx.currentTime;
 
+  gain.gain.setValueAtTime(0, now);
+  gain.gain.linearRampToValueAtTime(1, now + attack);
+  gain.gain.linearRampToValueAtTime(sustain, now + attack + decay);
+  gain.gain.setValueAtTime(sustain, now + attack + decay);
+  gain.gain.linearRampToValueAtTime(0, now + attack + decay + release);
+
+  osc.start(now);
+  osc.stop(now + attack + decay + release);
 }
 
 const keyboard = document.getElementById('keyboard');
@@ -40,4 +56,6 @@ notes.forEach(({note, freq}) => {
     key.addEventListener('click', () => playNote(freq));
     keyboard.appendChild(key);
 });
+
+
 
