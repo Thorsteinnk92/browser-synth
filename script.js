@@ -11,14 +11,19 @@ const releaseKnob = document.getElementById('release');
 
 
 const notes = [
-  { note: 'C', freq: 261.63 },
-  { note: 'D', freq: 293.66 },
-  { note: 'E', freq: 329.63 },
-  { note: 'F', freq: 349.23 },
-  { note: 'G', freq: 392.00 },
-  { note: 'A', freq: 440.00 },
-  { note: 'B', freq: 493.88 },
-  { note: 'C', freq: 523.25 },
+  { note: 'C',  freq: 261.63 },
+  { note: 'C#', freq: 277.18 },
+  { note: 'D',  freq: 293.66 },
+  { note: 'D#', freq: 311.13 },
+  { note: 'E',  freq: 329.63 },
+  { note: 'F',  freq: 349.23 },
+  { note: 'F#', freq: 369.99 },
+  { note: 'G',  freq: 392.00 },
+  { note: 'G#', freq: 415.30 },
+  { note: 'A',  freq: 440.00 },
+  { note: 'A#', freq: 466.16 },
+  { note: 'B',  freq: 493.88 },
+  { note: 'C',  freq: 523.25 },
 ];
 
 function playNote(frequency) {
